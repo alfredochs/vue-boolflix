@@ -8,13 +8,13 @@
         aria-label="Recipient's username"
         aria-describedby="button-addon2"
         v-model="query"
-        @keyup.enter="printMovies(), printSeries()"
+        @keyup.enter="printAll()"
       />
       <button
         class="btn btn-outline-secondary"
         type="button"
         id="button-addon2"
-        @click="printMovies(), printSeries()"
+        @click="printAll()"
       >
         Button
       </button>
@@ -23,12 +23,25 @@
     <div class="d-flex">
       <div class="border">
         Movies
+        <i class="fa fa-meetup" aria-hidden="true"></i>
         <ul>
-          <li v-for="movie in movies" :key="movie.id">
+          <li
+            v-for="movie in movies"
+            :key="movie.id"
+            class="d-flex flex-column text-center w-25"
+          >
+            <img :src="creaImgUrl(movie.poster_path)" alt="" />
             {{ movie.title }}
             ({{ movie.original_title }}) <br />
-            {{ movie.vote_average }}
             {{ movie.original_language }}
+            {{ movie.vote_average }}
+            {{ calcolaVoto(movie.vote_average) }}
+            <div>
+              <ul class="d-flex">
+                <li></li>
+              </ul>
+            </div>
+
             <img
               :src="bandiere[movie.original_language]"
               alt=""
@@ -41,11 +54,19 @@
       <div class="border">
         Series
         <ul>
-          <li v-for="serie in series" :key="serie.id">
+          <li
+            v-for="serie in series"
+            :key="serie.id"
+            class="d-flex flex-column text-center w-25"
+          >
+            <img :src="creaImgUrl(serie.poster_path)" alt="" />
+
             {{ serie.name }}
             {{ serie.original_name }}
             {{ serie.original_language }}
-            {{ serie.vote_average }}
+            <!-- {{ serie.vote_average }} -->
+            {{ calcolaVoto(serie.vote_average) }}
+
             <img
               :src="bandiere[serie.original_language]"
               alt=""
@@ -68,6 +89,8 @@ export default {
       apiKey: "f8519d76cebb62a56eaee41d2d683f32",
       apiUrl: "https://api.themoviedb.org/3",
       query: "",
+      stellaVuota: `<i class="fa fa-star-o" aria-hidden="true"></i>`,
+      stellaPiena: `<i class="fa fa-star" aria-hidden="true"></i>`,
       movies: [],
       series: [],
       bandiere: {
@@ -78,6 +101,7 @@ export default {
     };
   },
   methods: {
+    // url rappresenta cio che vogliamo cercare in questo caso movies e series
     searchQuery(url, testoDaCercare, dataKey) {
       axios
         .get(this.apiUrl + url, {
@@ -90,17 +114,35 @@ export default {
           this[dataKey] = resp.data.results;
         });
     },
-    printMovies() {
+    printAll() {
       this.searchQuery("/search/movie", this.query, "movies");
-    },
-    printSeries() {
       this.searchQuery("/search/tv", this.query, "series");
     },
+    creaImgUrl(imgDaPrendere) {
+      const apiUrl = "https://image.tmdb.org/t/p/";
+      const imgSize = "w342";
+      if (!imgDaPrendere) {
+        return "img mancante";
+      }
+
+      return apiUrl + imgSize + imgDaPrendere;
+    },
+    calcolaVoto(votoDaCalcolare) {
+      const votoDiviso = votoDaCalcolare / 2;
+      const votoFinale = Math.ceil(votoDiviso);
+      return votoFinale;
+    },
   },
-  mounted() {},
+
+  computed: {},
 };
 </script>
 
 <style lang="scss">
 @import "~bootstrap/scss/bootstrap";
+@import "~font-awesome/css/font-awesome.min.css";
+body {
+  background-color: black;
+  color: white;
+}
 </style>
