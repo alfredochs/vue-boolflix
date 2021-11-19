@@ -36,10 +36,21 @@
             {{ movie.original_language }}
             {{ movie.vote_average }}
             {{ calcolaVoto(movie.vote_average) }}
-            <div>
-              <ul class="d-flex">
-                <li></li>
-              </ul>
+
+            <div class="d-flex">
+              <i
+                class="fa fa-star"
+                aria-hidden="true"
+                v-for="(stella, i) in calcolaStelle(movie)"
+                :key="i"
+              >
+              </i>
+              <i
+                class="fa fa-star-o"
+                aria-hidden="true"
+                v-for="(stella, i) in stelleVuote(movie)"
+                :key="i"
+              ></i>
             </div>
 
             <img
@@ -66,12 +77,26 @@
             {{ serie.original_language }}
             <!-- {{ serie.vote_average }} -->
             {{ calcolaVoto(serie.vote_average) }}
-
             <img
               :src="bandiere[serie.original_language]"
               alt=""
               style="width: 20px"
             />
+            <div class="d-flex">
+              <i
+                class="fa fa-star"
+                aria-hidden="true"
+                v-for="(stella, i) in calcolaStelle(serie)"
+                :key="i"
+              >
+              </i>
+              <i
+                class="fa fa-star-o"
+                aria-hidden="true"
+                v-for="(stella, i) in stelleVuote(serie)"
+                :key="i"
+              ></i>
+            </div>
           </li>
         </ul>
       </div>
@@ -89,8 +114,6 @@ export default {
       apiKey: "f8519d76cebb62a56eaee41d2d683f32",
       apiUrl: "https://api.themoviedb.org/3",
       query: "",
-      stellaVuota: `<i class="fa fa-star-o" aria-hidden="true"></i>`,
-      stellaPiena: `<i class="fa fa-star" aria-hidden="true"></i>`,
       movies: [],
       series: [],
       bandiere: {
@@ -131,6 +154,13 @@ export default {
       const votoDiviso = votoDaCalcolare / 2;
       const votoFinale = Math.ceil(votoDiviso);
       return votoFinale;
+    },
+    calcolaStelle(tipo) {
+      const totaleStelle = tipo.vote_average / 2;
+      return Math.ceil(totaleStelle);
+    },
+    stelleVuote(tipo) {
+      return 5 - this.calcolaStelle(tipo);
     },
   },
 
