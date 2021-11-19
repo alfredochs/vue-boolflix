@@ -5,6 +5,8 @@
     <!-- Bootstrap -->
 
     <!-- <NavBar></NavBar> -->
+
+    <!-- <Search @mioEvento="searchQuery(), printAll()"></Search> -->
     <nav class="d-flex justify-content-between align-items-center">
       <h2 style="color: #f50001">Boolflix</h2>
       <div class="mb-3">
@@ -53,6 +55,8 @@
 <script>
 import axios from "axios";
 import Card from "./components/Card.vue";
+// import Search from "./components/Search.vue";
+
 // import NavBar from "./components/NavBar.vue";
 export default {
   name: "App",

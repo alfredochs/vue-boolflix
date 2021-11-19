@@ -4,17 +4,17 @@
     <div class="card border-0 h-100" style="width: 18rem">
       <img class="card-img-top h-100" :src="generaImg" alt="Card image cap" />
 
-      <div class="card-body bg-dark position-absolute d-none h-100 w-100">
+      <div class="card-body position-absolute h-100 w-100 overlay">
         <h5 class="card-title">{{ generaTitolo }}</h5>
         <div class="card-title" v-if="titoloOriginale">
           <strong>Titolo Originale: </strong>{{ titoloOriginale }}
         </div>
-        <p class="card-text bg-dark" v-if="type.overview">
+        <p class="card-text" v-if="type.overview">
           <strong>Descrizione: </strong>
           {{ type.overview }}
         </p>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item bg-dark">
+          <li class="list-unstyled">
             <i
               class="fa"
               aria-hidden="true"
@@ -68,6 +68,7 @@ export default {
   props: {
     type: Object,
   },
+
   data() {
     return {
       bandiere: {
@@ -82,7 +83,7 @@ export default {
       const apiUrl = "https://image.tmdb.org/t/p/";
       const imgSize = "w342";
       if (!this.type.poster_path) {
-        return "img Mancante";
+        return require("@/assets/unknown.png");
       }
       return apiUrl + imgSize + this.type.poster_path;
     },
@@ -108,4 +109,5 @@ export default {
 </script>
 
 <style>
+@import "../styles/card.scss";
 </style>
