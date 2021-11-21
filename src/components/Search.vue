@@ -9,14 +9,14 @@
           placeholder="Cerca ..."
           aria-label="Recipient's username"
           aria-describedby="button-addon2"
-          v-model="parolaDaCercare"
-          @keyup.enter="$emit('mioEvento', parolaDaCercare)"
+          v-model="inputText"
+          @keyup.enter="printAll"
         />
         <button
           class="btn btn-outline-secondary"
           type="button"
           id="button-addon2"
-          @click="printAll()"
+          @click="printAll"
         >
           Button
         </button>
@@ -30,8 +30,14 @@ export default {
   name: "Search",
   data() {
     return {
-      parolaDaCercare: "",
+      inputText: "",
     };
+  },
+
+  methods: {
+    printAll() {
+      this.$emit("stampaTutto", this.inputText);
+    },
   },
 };
 </script>

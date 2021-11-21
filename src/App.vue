@@ -1,13 +1,8 @@
 <template>
   <div id="app" class="container">
-    <!-- Bootstrap -->
-
-    <!-- Bootstrap -->
-
     <!-- <NavBar></NavBar> -->
-
-    <!-- <Search @mioEvento="searchQuery(), printAll()"></Search> -->
-    <nav class="d-flex justify-content-between align-items-center">
+    <Search @stampaTutto="printAll"></Search>
+    <!-- <nav class="d-flex justify-content-between align-items-center">
       <h2 style="color: #f50001">Boolflix</h2>
       <div class="mb-3">
         <input
@@ -28,7 +23,7 @@
           Button
         </button>
       </div>
-    </nav>
+    </nav> -->
 
     <!-- Movies -->
 
@@ -55,12 +50,12 @@
 <script>
 import axios from "axios";
 import Card from "./components/Card.vue";
+import Search from "./components/Search.vue";
 // import Search from "./components/Search.vue";
 
-// import NavBar from "./components/NavBar.vue";
 export default {
   name: "App",
-  components: { Card },
+  components: { Card, Search },
   data() {
     return {
       apiKey: "f8519d76cebb62a56eaee41d2d683f32",
@@ -90,7 +85,9 @@ export default {
           this[dataKey] = resp.data.results;
         });
     },
-    printAll() {
+    printAll(daCollegare) {
+      this.query = daCollegare;
+
       this.searchQuery("/search/movie", this.query, "movies");
       this.searchQuery("/search/tv", this.query, "series");
     },
